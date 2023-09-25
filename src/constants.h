@@ -1,0 +1,10 @@
+#pragma once
+
+#define WINDOW_WIDTH 620
+#define WINDOW_HEIGHT 480
+
+#define LOGICAL_SCREEN_WIDTH 200
+#define LOGICAL_SCREEN_HEIGHT 100
+
+#define FPS 60
+#define TARGET_FRAME_TIME (1000 / FPS)
