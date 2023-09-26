@@ -40,7 +40,7 @@ void Game::handle_input() {
     }
 }
 
-void Game::update() {}
+void Game::update(Uint32 delta_time) {}
 
 void Game::draw() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);

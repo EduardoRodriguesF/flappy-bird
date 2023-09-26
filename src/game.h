@@ -8,7 +8,7 @@ class Game {
     ~Game();
     void setup();
     void handle_input();
-    void update();
+    void update(Uint32 delta_time);
     void draw();
     bool is_running;
 

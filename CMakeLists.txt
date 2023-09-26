@@ -7,7 +7,10 @@ find_package(SDL2 REQUIRED)
 
 add_executable(${PROJECT_NAME} "src/main.cpp" "src/game.cpp")
 
-target_link_libraries(${PROJECT_NAME} SDL2::SDL2)
+include_directories(modules)
+add_subdirectory(modules/clock)
+
+target_link_libraries(${PROJECT_NAME} SDL2::SDL2 clock)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     CXX_STANDARD 20
