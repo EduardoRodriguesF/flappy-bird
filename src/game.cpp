@@ -1,11 +1,13 @@
 #include "game.h"
 #include "SDL2/SDL_events.h"
+#include "SDL2/SDL_log.h"
 #include "SDL2/SDL_render.h"
 #include "SDL2/SDL_video.h"
 #include "constants.h"
+#include <iostream>
 #include <stdexcept>
 
-Game::Game() : is_running(true) {
+Game::Game() : is_running(true), player(0, 0) {
     window = SDL_CreateWindow("Flappy bird", SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH,
                               WINDOW_HEIGHT, SDL_WINDOW_OPENGL);
@@ -29,25 +31,36 @@ Game::~Game() {
     SDL_Quit();
 }
 
-void Game::setup() {}
+void Game::setup() { player.position = SDL_FPoint{64.0f, 0.0f}; }
 
 void Game::handle_input() {
     SDL_Event e;
     while (SDL_PollEvent(&e)) {
+        switch (e.type) {
+        case SDL_QUIT:
+            this->is_running = false;
+            break;
+        case SDL_KEYDOWN:
+            if (e.key.keysym.sym == SDLK_SPACE) {
+                player.jump();
+            }
+
+            break;
+        }
         if (e.type == SDL_QUIT) {
             this->is_running = false;
         }
     }
 }
 
-void Game::update(Uint32 delta_time) {}
+void Game::update(const float &delta_time) { player.update(delta_time); }
 
 void Game::draw() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    // Draw stuff
+    player.draw(renderer);
 
     SDL_RenderPresent(renderer);
 }

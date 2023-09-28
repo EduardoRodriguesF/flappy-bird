@@ -5,7 +5,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(SDL2 REQUIRED)
 
-add_executable(${PROJECT_NAME} "src/main.cpp" "src/game.cpp")
+add_executable(${PROJECT_NAME} "src/main.cpp" "src/game.cpp" "src/entities.cpp")
 
 include_directories(modules)
 add_subdirectory(modules/clock)
