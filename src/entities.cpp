@@ -26,3 +26,15 @@ void Player::jump() { this->velocity.y = -JUMP_FORCE; }
 void Player::draw(SDL_Renderer *renderer) {
     SDL_RenderDrawRectF(renderer, &this->collider);
 }
+
+Pipe::Pipe(int gap_y) {
+    float bottom_start_y = gap_y + GAP_RADIUS;
+
+    float top_height = gap_y - GAP_RADIUS;
+    float bottom_height = LOGICAL_SCREEN_HEIGHT - bottom_start_y;
+
+    float start_x = static_cast<float>(LOGICAL_SCREEN_WIDTH);
+
+    this->top_body = SDL_FRect {start_x, 0.0f, PIPE_WIDTH, top_height};
+    this->bottom_body = SDL_FRect {start_x, bottom_start_y, PIPE_WIDTH, bottom_height};
+}

@@ -11,3 +11,9 @@ struct Player {
     void draw(SDL_Renderer *renderer);
     void jump();
 };
+
+struct Pipe {
+    Pipe(int gap_y);
+    SDL_FRect bottom_body;
+    SDL_FRect top_body;
+};

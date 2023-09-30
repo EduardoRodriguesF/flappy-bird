@@ -9,6 +9,12 @@
 #define FPS 60
 #define TARGET_FRAME_TIME (1000 / FPS)
 
-#define GRAVITY_FORCE 3.0f
-#define JUMP_FORCE 1.5f
+#define GRAVITY_FORCE 1.9f
+#define JUMP_FORCE 0.8f
 #define MAX_VERTICAL_SPEED 2.3f
+
+#define GAP_RADIUS 25
+#define PIPE_SPEED 35.0f
+#define PIPE_WIDTH 32
+
+#define PIPE_TIMEOUT_MS (6 * 1000)

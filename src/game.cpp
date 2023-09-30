@@ -31,7 +31,10 @@ Game::~Game() {
     SDL_Quit();
 }
 
-void Game::setup() { player.position = SDL_FPoint{64.0f, 0.0f}; }
+void Game::setup() {
+    player.position = SDL_FPoint{64.0f, 0.0f};
+    pipes.push_back(Pipe(100));
+}
 
 void Game::handle_input() {
     SDL_Event e;
@@ -53,13 +56,26 @@ void Game::handle_input() {
     }
 }
 
-void Game::update(const float &delta_time) { player.update(delta_time); }
+void Game::update(const float &delta_time) {
+    player.update(delta_time);
+
+    for (auto &pipe : this->pipes) {
+        pipe.top_body.x -= 38.0f * delta_time;
+        pipe.bottom_body.x -= 38.0f * delta_time;
+    }
+}
 
 void Game::draw() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
+    for (auto &pipe : this->pipes) {
+        SDL_RenderDrawRectF(renderer, &pipe.top_body);
+        SDL_RenderDrawRectF(renderer, &pipe.bottom_body);
+    }
+
     player.draw(renderer);
 
     SDL_RenderPresent(renderer);

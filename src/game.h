@@ -2,6 +2,7 @@
 
 #include "entities.h"
 #include <SDL.h>
+#include <vector>
 
 struct Game {
   public:
@@ -17,4 +18,5 @@ struct Game {
     SDL_Window *window;
     SDL_Renderer *renderer;
     Player player;
+    std::vector<Pipe> pipes;
 };
