@@ -77,7 +77,7 @@ void Game::update(const float &delta_time) {
         bool top_collides =
             aabb::collides(player.collider, nearest_pipe.top_body);
         bool bottom_collides =
-            aabb::collides(player.collider, nearest_pipe.top_body);
+            aabb::collides(player.collider, nearest_pipe.bottom_body);
 
         if (top_collides || bottom_collides) {
             this->game_over();
