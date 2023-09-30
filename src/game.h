@@ -3,7 +3,7 @@
 #include "entities.h"
 #include <SDL.h>
 
-class Game {
+struct Game {
   public:
     Game();
     ~Game();
