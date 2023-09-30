@@ -9,8 +9,9 @@ add_executable(${PROJECT_NAME} "src/main.cpp" "src/game.cpp" "src/entities.cpp")
 
 include_directories(modules)
 add_subdirectory(modules/clock)
+add_subdirectory(modules/collision)
 
-target_link_libraries(${PROJECT_NAME} SDL2::SDL2 clock)
+target_link_libraries(${PROJECT_NAME} SDL2::SDL2 clock collision)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     CXX_STANDARD 20

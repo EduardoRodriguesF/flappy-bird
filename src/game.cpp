@@ -3,6 +3,7 @@
 #include "SDL2/SDL_log.h"
 #include "SDL2/SDL_render.h"
 #include "SDL2/SDL_video.h"
+#include "collision/aabb.h"
 #include "constants.h"
 #include <iostream>
 #include <stdexcept>
@@ -38,6 +39,7 @@ void Game::setup() {
 
 void Game::handle_input() {
     SDL_Event e;
+
     while (SDL_PollEvent(&e)) {
         switch (e.type) {
         case SDL_QUIT:
@@ -45,7 +47,9 @@ void Game::handle_input() {
             break;
         case SDL_KEYDOWN:
             if (e.key.keysym.sym == SDLK_SPACE) {
-                player.jump();
+                if (state == State::Playing) {
+                    player.jump();
+                }
             }
 
             break;
@@ -56,12 +60,34 @@ void Game::handle_input() {
     }
 }
 
-void Game::update(const float &delta_time) {
-    player.update(delta_time);
+void Game::game_over() {
+    state = State::GameOver;
+}
 
-    for (auto &pipe : this->pipes) {
-        pipe.top_body.x -= 38.0f * delta_time;
-        pipe.bottom_body.x -= 38.0f * delta_time;
+void Game::update(const float &delta_time) {
+    switch (this->state) {
+    case State::Playing:
+        player.update(delta_time);
+
+        for (auto &pipe : this->pipes) {
+            pipe.top_body.x -= 38.0f * delta_time;
+            pipe.bottom_body.x -= 38.0f * delta_time;
+
+            bool top_collides = aabb::collides(player.collider, pipe.top_body);
+            bool bottom_collides =
+                aabb::collides(player.collider, pipe.top_body);
+
+            if (top_collides || bottom_collides) {
+                this->game_over();
+                break;
+            }
+        }
+
+        break;
+    case State::GameOver:
+        if (player.position.y < LOGICAL_SCREEN_HEIGHT - 16.0f) {
+            player.update(delta_time);
+        }
     }
 }
 

@@ -1,7 +1,7 @@
 #include "entities.h"
-#include "constants.h"
 #include "SDL2/SDL_rect.h"
 #include "SDL2/SDL_render.h"
+#include "constants.h"
 #include <iostream>
 
 Player::Player(float x, float y)
@@ -35,6 +35,7 @@ Pipe::Pipe(int gap_y) {
 
     float start_x = static_cast<float>(LOGICAL_SCREEN_WIDTH);
 
-    this->top_body = SDL_FRect {start_x, 0.0f, PIPE_WIDTH, top_height};
-    this->bottom_body = SDL_FRect {start_x, bottom_start_y, PIPE_WIDTH, bottom_height};
+    this->top_body = SDL_FRect{start_x, 0.0f, PIPE_WIDTH, top_height};
+    this->bottom_body =
+        SDL_FRect{start_x, bottom_start_y, PIPE_WIDTH, bottom_height};
 }
