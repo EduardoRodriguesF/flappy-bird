@@ -2,7 +2,7 @@
 
 #include "entities.h"
 #include <SDL.h>
-#include <vector>
+#include <list>
 
 enum class State {
     Playing,
@@ -25,5 +25,5 @@ struct Game {
     SDL_Window *window;
     SDL_Renderer *renderer;
     Player player;
-    std::vector<Pipe> pipes;
+    std::list<Pipe> pipes;
 };

@@ -60,30 +60,36 @@ void Game::handle_input() {
     }
 }
 
-void Game::game_over() {
-    state = State::GameOver;
-}
+void Game::game_over() { state = State::GameOver; }
 
 void Game::update(const float &delta_time) {
     switch (this->state) {
-    case State::Playing:
+    case State::Playing: {
         player.update(delta_time);
 
         for (auto &pipe : this->pipes) {
             pipe.top_body.x -= 38.0f * delta_time;
             pipe.bottom_body.x -= 38.0f * delta_time;
+        }
 
-            bool top_collides = aabb::collides(player.collider, pipe.top_body);
-            bool bottom_collides =
-                aabb::collides(player.collider, pipe.top_body);
+        Pipe &nearest_pipe = pipes.front();
 
-            if (top_collides || bottom_collides) {
-                this->game_over();
-                break;
-            }
+        bool top_collides =
+            aabb::collides(player.collider, nearest_pipe.top_body);
+        bool bottom_collides =
+            aabb::collides(player.collider, nearest_pipe.top_body);
+
+        if (top_collides || bottom_collides) {
+            this->game_over();
+        }
+
+        if (nearest_pipe.top_body.x + nearest_pipe.top_body.w < 0) {
+            // Pipe out render vision
+            pipes.pop_front();
         }
 
         break;
+    }
     case State::GameOver:
         if (player.position.y < LOGICAL_SCREEN_HEIGHT - 16.0f) {
             player.update(delta_time);
