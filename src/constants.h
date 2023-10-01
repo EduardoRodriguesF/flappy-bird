@@ -13,8 +13,9 @@
 #define JUMP_FORCE 0.8f
 #define MAX_VERTICAL_SPEED 2.3f
 
+#define SCENE_SPEED 35.0f
+
 #define GAP_RADIUS 25
-#define PIPE_SPEED 35.0f
 #define PIPE_WIDTH 32
 
 #define PIPE_TIMEOUT_MS (3 * 1000)

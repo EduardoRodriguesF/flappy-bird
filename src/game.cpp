@@ -5,6 +5,7 @@
 #include "SDL2/SDL_video.h"
 #include "collision/aabb.h"
 #include "constants.h"
+#include <algorithm>
 #include <cstdlib>
 #include <iostream>
 #include <stdexcept>
@@ -70,9 +71,11 @@ void Game::game_over() {
 void Game::update(const float &delta_time) {
     switch (this->state) {
     case State::Playing: {
+        float scene_acceleration = SCENE_SPEED * delta_time;
+
         if (spawn_timer <= 0) {
             spawn_timer = PIPE_TIMEOUT_MS;
-            int gap_y = std::rand() % LOGICAL_SCREEN_HEIGHT;
+            int gap_y = std::min(std::max(GAP_RADIUS * 2, std::rand() % LOGICAL_SCREEN_HEIGHT), LOGICAL_SCREEN_HEIGHT - GAP_RADIUS * 2);
             pipes.push_back(Pipe(gap_y));
         }
         spawn_timer -= delta_time * 1000;
@@ -80,8 +83,8 @@ void Game::update(const float &delta_time) {
         player.update(delta_time);
 
         for (auto &pipe : this->pipes) {
-            pipe.top_body.x -= 38.0f * delta_time;
-            pipe.bottom_body.x -= 38.0f * delta_time;
+            pipe.top_body.x -= scene_acceleration;
+            pipe.bottom_body.x -= scene_acceleration;
         }
 
         Pipe &nearest_pipe = pipes.front();
