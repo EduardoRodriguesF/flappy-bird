@@ -5,6 +5,7 @@
 #include <list>
 
 enum class State {
+    Start,
     Playing,
     GameOver,
 };
@@ -18,6 +19,7 @@ struct Game {
     void update(const float &delta_time);
     void draw();
     void game_over();
+    void new_game();
     bool is_running;
     State state;
 
@@ -27,4 +29,5 @@ struct Game {
     Player player;
     std::list<Pipe> pipes;
     int spawn_timer;
+    bool btn_pressed;
 };

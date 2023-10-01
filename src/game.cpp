@@ -10,7 +10,7 @@
 #include <iostream>
 #include <stdexcept>
 
-Game::Game() : is_running(true), player(0, 0) {
+Game::Game() : is_running(true), player(0, 0), btn_pressed(false) {
     window = SDL_CreateWindow("Flappy bird", SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH,
                               WINDOW_HEIGHT, SDL_WINDOW_OPENGL);
@@ -35,8 +35,8 @@ Game::~Game() {
 }
 
 void Game::setup() {
-    player.position = SDL_FPoint{64.0f, 0.0f};
-    pipes.push_back(Pipe(100));
+    player = Player(64.0f, LOGICAL_SCREEN_HEIGHT / 2);
+    pipes = std::list<Pipe>({ Pipe(LOGICAL_SCREEN_HEIGHT / 2) });
     spawn_timer = PIPE_TIMEOUT_MS;
 }
 
@@ -49,18 +49,18 @@ void Game::handle_input() {
             this->is_running = false;
             break;
         case SDL_KEYDOWN:
-            if (e.key.keysym.sym == SDLK_SPACE) {
-                if (state == State::Playing) {
-                    player.jump();
-                }
-            }
-
+            btn_pressed = e.key.keysym.sym == SDLK_SPACE;
             break;
         }
         if (e.type == SDL_QUIT) {
             this->is_running = false;
         }
     }
+}
+
+void Game::new_game() {
+    this->setup();
+    state = State::Playing;
 }
 
 void Game::game_over() {
@@ -79,6 +79,10 @@ void Game::update(const float &delta_time) {
             pipes.push_back(Pipe(gap_y));
         }
         spawn_timer -= delta_time * 1000;
+
+        if (btn_pressed) {
+            player.jump();
+        }
 
         player.update(delta_time);
 
@@ -108,8 +112,18 @@ void Game::update(const float &delta_time) {
     case State::GameOver:
         if (player.position.y < LOGICAL_SCREEN_HEIGHT - 16.0f) {
             player.update(delta_time);
+        } else if (btn_pressed) {
+            this->new_game();
         }
+        break;
+    default:
+        if (btn_pressed) {
+            this->new_game();
+        }
+        break;
     }
+
+    btn_pressed = false;
 }
 
 void Game::draw() {
