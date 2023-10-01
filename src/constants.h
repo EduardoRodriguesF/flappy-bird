@@ -17,4 +17,4 @@
 #define PIPE_SPEED 35.0f
 #define PIPE_WIDTH 32
 
-#define PIPE_TIMEOUT_MS (6 * 1000)
+#define PIPE_TIMEOUT_MS (3 * 1000)

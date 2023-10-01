@@ -5,6 +5,7 @@
 #include "SDL2/SDL_video.h"
 #include "collision/aabb.h"
 #include "constants.h"
+#include <cstdlib>
 #include <iostream>
 #include <stdexcept>
 
@@ -35,6 +36,7 @@ Game::~Game() {
 void Game::setup() {
     player.position = SDL_FPoint{64.0f, 0.0f};
     pipes.push_back(Pipe(100));
+    spawn_timer = PIPE_TIMEOUT_MS;
 }
 
 void Game::handle_input() {
@@ -60,11 +62,21 @@ void Game::handle_input() {
     }
 }
 
-void Game::game_over() { state = State::GameOver; }
+void Game::game_over() {
+    player.velocity.y = 0;
+    state = State::GameOver;
+}
 
 void Game::update(const float &delta_time) {
     switch (this->state) {
     case State::Playing: {
+        if (spawn_timer <= 0) {
+            spawn_timer = PIPE_TIMEOUT_MS;
+            int gap_y = std::rand() % LOGICAL_SCREEN_HEIGHT;
+            pipes.push_back(Pipe(gap_y));
+        }
+        spawn_timer -= delta_time * 1000;
+
         player.update(delta_time);
 
         for (auto &pipe : this->pipes) {

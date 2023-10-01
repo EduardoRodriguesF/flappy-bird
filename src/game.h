@@ -26,4 +26,5 @@ struct Game {
     SDL_Renderer *renderer;
     Player player;
     std::list<Pipe> pipes;
+    int spawn_timer;
 };
