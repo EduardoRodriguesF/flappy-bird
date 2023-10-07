@@ -7,6 +7,7 @@ struct Player {
     SDL_FPoint position;
     SDL_FPoint velocity;
     SDL_FRect collider;
+    double angle;
     void update(const float &delta_time);
     void draw(SDL_Renderer *renderer);
     void jump();

@@ -19,6 +19,8 @@ void Player::update(const float &delta_time) {
 
     collider.x = position.x;
     collider.y = position.y;
+
+    angle = std::min(45.0, std::max(-45.0, velocity.y * 50.0));
 }
 
 void Player::jump() { this->velocity.y = -JUMP_FORCE; }
