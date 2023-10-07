@@ -16,7 +16,7 @@
 #define SCENE_SPEED 35.0f
 
 #define GAP_RADIUS 25
-#define PIPE_WIDTH 32
+#define PIPE_WIDTH 52
 
 #define PIPE_TIMEOUT_MS (3 * 1000)
 

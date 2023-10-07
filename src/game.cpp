@@ -55,7 +55,9 @@ void Game::setup() {
 void Game::load_textures() {
     texture_manager =
         std::make_unique<TextureManager>(renderer, "res/sprites/");
+
     texture_manager->load(S_BIRD_MIDFLAP, 34, 24);
+    texture_manager->load(S_PIPE, 52, 320);
 }
 
 void Game::handle_input() {
@@ -147,23 +149,33 @@ void Game::update(const float &delta_time) {
 }
 
 void Game::draw() {
+    auto bird_texture = texture_manager->get(S_BIRD_MIDFLAP);
+    auto pipe_texture = texture_manager->get(S_PIPE);
+
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
+    auto render_rect = SDL_FRect {
+        0.0f, 0.0f,
+        static_cast<float>(pipe_texture->width), static_cast<float>(pipe_texture->height),
+    };
     for (auto &pipe : this->pipes) {
-        SDL_RenderDrawRectF(renderer, &pipe.top_body);
-        SDL_RenderDrawRectF(renderer, &pipe.bottom_body);
-    }
+        render_rect.x = pipe.top_body.x;
+        render_rect.y = pipe.top_body.y - pipe_texture->height + pipe.top_body.h;
+        SDL_RenderCopyExF(renderer, pipe_texture->ptr, NULL, &render_rect, 0.0, NULL, SDL_RendererFlip::SDL_FLIP_VERTICAL);
 
-    auto bird_texture = texture_manager->get(S_BIRD_MIDFLAP);
+        render_rect.x = pipe.bottom_body.x;
+        render_rect.y = pipe.bottom_body.y;
+        SDL_RenderCopyF(renderer, pipe_texture->ptr, NULL, &render_rect);
+    }
 
     player.draw(renderer);
 
     auto rect = SDL_Rect{(int)player.position.x, (int)player.position.y,
                          bird_texture->width, bird_texture->height};
-    SDL_RenderCopy(renderer, bird_texture->ptr, NULL, &rect);
+    SDL_RenderCopyEx(renderer, bird_texture->ptr, NULL, &rect, player.velocity.y * 30.0, NULL, SDL_RendererFlip::SDL_FLIP_NONE);
 
     SDL_RenderPresent(renderer);
 }
