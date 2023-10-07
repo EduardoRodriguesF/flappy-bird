@@ -5,7 +5,7 @@
 #include <iostream>
 
 Player::Player(float x, float y)
-    : position(SDL_FPoint{x, y}), collider(SDL_FRect{x, y, 16.0f, 16.0f}),
+    : position(SDL_FPoint{x, y}), collider(SDL_FRect{x, y, 25.0f, 20.0f}),
       velocity(SDL_FPoint{0, 0}){};
 
 void Player::update(const float &delta_time) {
@@ -17,8 +17,8 @@ void Player::update(const float &delta_time) {
     position.x += velocity.x;
     position.y += velocity.y;
 
-    collider.x = position.x;
-    collider.y = position.y;
+    collider.x = position.x + 5;
+    collider.y = position.y + 2;
 
     angle = std::min(45.0, std::max(-45.0, velocity.y * 50.0));
 }
