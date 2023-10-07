@@ -25,7 +25,7 @@ void Player::update(const float &delta_time) {
 
 void Player::jump() { this->velocity.y = -JUMP_FORCE; }
 
-void Player::draw(SDL_Renderer *renderer) {
+void Player::draw_collider(SDL_Renderer *renderer) {
     SDL_RenderDrawRectF(renderer, &this->collider);
 }
 

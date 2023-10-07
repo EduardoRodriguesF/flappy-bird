@@ -9,7 +9,7 @@ struct Player {
     SDL_FRect collider;
     double angle;
     void update(const float &delta_time);
-    void draw(SDL_Renderer *renderer);
+    void draw_collider(SDL_Renderer *renderer);
     void jump();
 };
 

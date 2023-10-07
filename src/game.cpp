@@ -171,8 +171,6 @@ void Game::draw() {
         SDL_RenderCopyF(renderer, pipe_texture->ptr, NULL, &render_rect);
     }
 
-    player.draw(renderer);
-
     auto rect = SDL_Rect{(int)player.position.x, (int)player.position.y,
                          bird_texture->width, bird_texture->height};
     SDL_RenderCopyEx(renderer, bird_texture->ptr, NULL, &rect, player.angle, NULL, SDL_RendererFlip::SDL_FLIP_NONE);
