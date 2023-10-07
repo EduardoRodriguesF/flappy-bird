@@ -108,6 +108,11 @@ void Game::update(const float &delta_time) {
 
         player.update(delta_time);
 
+        if (player.position.y >= FLOOR_HEIGHT) {
+            this->game_over();
+            break;
+        }
+
         for (auto &pipe : this->pipes) {
             pipe.top_body.x -= scene_acceleration;
             pipe.bottom_body.x -= scene_acceleration;
@@ -122,6 +127,7 @@ void Game::update(const float &delta_time) {
 
         if (top_collides || bottom_collides) {
             this->game_over();
+            break;
         }
 
         if (nearest_pipe.top_body.x + nearest_pipe.top_body.w < 0) {
@@ -132,7 +138,7 @@ void Game::update(const float &delta_time) {
         break;
     }
     case State::GameOver:
-        if (player.position.y < LOGICAL_SCREEN_HEIGHT - 16.0f) {
+        if (player.position.y < FLOOR_HEIGHT) {
             player.update(delta_time);
         } else if (btn_pressed) {
             this->new_game();
