@@ -6,22 +6,22 @@
 #include <string>
 
 struct Texture {
-    SDL_Texture* ptr;
+    SDL_Texture *ptr;
     int width;
     int height;
-    Texture(SDL_Texture* ptr, int width, int height);
-    ~Texture();
+    Texture(SDL_Texture *ptr, int width, int height);
 };
 
 struct TextureManager {
-    std::map<const char*, Texture> loaded_textures;
+    std::map<const std::string_view, Texture> loaded_textures;
 
-    TextureManager(SDL_Renderer* renderer, std::string root_path);
-    void load(const char* key, int width, int height);
-    void unload(const char* key);
-    const Texture* get(const char* key) const;
+    TextureManager(SDL_Renderer *renderer, std::string_view root_path);
+    ~TextureManager();
+    void load(const std::string_view key, int width, int height);
+    void unload(const std::string_view key);
+    const Texture *get(const std::string_view key) const;
 
-private:
+  private:
     SDL_Renderer *renderer;
-    std::string root_path;
+    std::string_view root_path;
 };

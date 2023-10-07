@@ -1,8 +1,10 @@
 #pragma once
 
 #include "entities.h"
+#include "resource/texture.h"
 #include <SDL.h>
 #include <list>
+#include <memory>
 
 enum class State {
     Start,
@@ -15,6 +17,7 @@ struct Game {
     Game();
     ~Game();
     void setup();
+    void load_textures();
     void handle_input();
     void update(const float &delta_time);
     void draw();
@@ -30,4 +33,5 @@ struct Game {
     std::list<Pipe> pipes;
     int spawn_timer;
     bool btn_pressed;
+    std::unique_ptr<TextureManager> texture_manager;
 };

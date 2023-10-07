@@ -1,16 +1,28 @@
 #include "game.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_error.h"
 #include "SDL2/SDL_events.h"
 #include "SDL2/SDL_log.h"
 #include "SDL2/SDL_render.h"
 #include "SDL2/SDL_video.h"
+#include "SDL2_image/SDL_image.h"
 #include "collision/aabb.h"
 #include "constants.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
+#include <memory>
 #include <stdexcept>
 
 Game::Game() : is_running(true), player(0, 0), btn_pressed(false) {
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        throw std::runtime_error("Failed to initialize SDL");
+    }
+
+    if (IMG_Init(IMG_INIT_PNG) < 0) {
+        throw std::runtime_error("Failed to initialize IMG");
+    }
+
     window = SDL_CreateWindow("Flappy bird", SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH,
                               WINDOW_HEIGHT, SDL_WINDOW_OPENGL);
@@ -36,8 +48,14 @@ Game::~Game() {
 
 void Game::setup() {
     player = Player(64.0f, LOGICAL_SCREEN_HEIGHT / 2);
-    pipes = std::list<Pipe>({ Pipe(LOGICAL_SCREEN_HEIGHT / 2) });
+    pipes = std::list<Pipe>({Pipe(LOGICAL_SCREEN_HEIGHT / 2)});
     spawn_timer = PIPE_TIMEOUT_MS;
+}
+
+void Game::load_textures() {
+    texture_manager =
+        std::make_unique<TextureManager>(renderer, "res/sprites/");
+    texture_manager->load(S_BIRD_MIDFLAP, 34, 24);
 }
 
 void Game::handle_input() {
@@ -75,7 +93,9 @@ void Game::update(const float &delta_time) {
 
         if (spawn_timer <= 0) {
             spawn_timer = PIPE_TIMEOUT_MS;
-            int gap_y = std::min(std::max(GAP_RADIUS * 2, std::rand() % LOGICAL_SCREEN_HEIGHT), LOGICAL_SCREEN_HEIGHT - GAP_RADIUS * 2);
+            int gap_y = std::min(
+                std::max(GAP_RADIUS * 2, std::rand() % LOGICAL_SCREEN_HEIGHT),
+                LOGICAL_SCREEN_HEIGHT - GAP_RADIUS * 2);
             pipes.push_back(Pipe(gap_y));
         }
         spawn_timer -= delta_time * 1000;
@@ -137,7 +157,13 @@ void Game::draw() {
         SDL_RenderDrawRectF(renderer, &pipe.bottom_body);
     }
 
+    auto bird_texture = texture_manager->get(S_BIRD_MIDFLAP);
+
     player.draw(renderer);
+
+    auto rect = SDL_Rect{(int)player.position.x, (int)player.position.y,
+                         bird_texture->width, bird_texture->height};
+    SDL_RenderCopy(renderer, bird_texture->ptr, NULL, &rect);
 
     SDL_RenderPresent(renderer);
 }

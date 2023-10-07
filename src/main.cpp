@@ -7,6 +7,7 @@ int main() {
     auto clock = std::make_unique<Clock>(60);
 
     game.setup();
+    game.load_textures();
 
     while (game.is_running) {
         game.handle_input();

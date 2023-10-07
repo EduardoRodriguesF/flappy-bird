@@ -19,3 +19,14 @@
 #define PIPE_WIDTH 32
 
 #define PIPE_TIMEOUT_MS (3 * 1000)
+
+#define S_BIRD_UPFLAP "yellowbird-upflap.png"
+#define S_BIRD_MIDFLAP "yellowbird-midflap.png"
+#define S_BIRD_DOWNFLAP "yellowbird-downflap.png"
+
+#define S_PIPE "pipe-green.png"
+
+#define S_BG_DAY "background-day.png"
+#define S_BG_NIGHT "background-day.png"
+
+#define S_BASE "base.png"
