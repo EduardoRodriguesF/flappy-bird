@@ -13,8 +13,6 @@ struct Texture {
 };
 
 struct TextureManager {
-    std::map<const std::string_view, Texture> loaded_textures;
-
     TextureManager(SDL_Renderer *renderer, std::string_view root_path);
     ~TextureManager();
     void load(const std::string_view key, int width, int height);
@@ -24,4 +22,5 @@ struct TextureManager {
   private:
     SDL_Renderer *renderer;
     std::string_view root_path;
+    std::map<const std::string_view, Texture> loaded_textures;
 };

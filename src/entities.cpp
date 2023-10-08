@@ -41,3 +41,17 @@ Pipe::Pipe(int gap_y) {
     this->bottom_body =
         SDL_FRect{start_x, bottom_start_y, PIPE_WIDTH, bottom_height};
 }
+
+void Background::update(const float &delta_time) {
+    for (float &position : positions) {
+        position -= delta_time;
+    }
+}
+
+void Background::draw(SDL_Renderer* renderer) {
+    auto destrect = SDL_Rect{ 0, 0, texture->width, texture->height };
+    for (const float position : positions) {
+        destrect.x = position;
+        SDL_RenderCopy(renderer, texture->ptr, NULL, &destrect);
+    }
+}

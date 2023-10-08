@@ -50,6 +50,7 @@ void Game::setup() {
     player = Player(64.0f, LOGICAL_SCREEN_HEIGHT / 2);
     pipes = std::list<Pipe>({Pipe(LOGICAL_SCREEN_HEIGHT / 2)});
     spawn_timer = PIPE_TIMEOUT_MS;
+    background.positions = { 0.0f, 289.0f };
 }
 
 void Game::load_textures() {
@@ -58,6 +59,9 @@ void Game::load_textures() {
 
     texture_manager->load(S_BIRD_MIDFLAP, 34, 24);
     texture_manager->load(S_PIPE, 52, 320);
+    texture_manager->load(S_BG_DAY, 288, 512);
+
+    background.texture = texture_manager->get(S_BG_DAY);
 }
 
 void Game::handle_input() {
@@ -91,6 +95,8 @@ void Game::game_over() {
 void Game::update(const float &delta_time) {
     switch (this->state) {
     case State::Playing: {
+        background.update(delta_time);
+
         float scene_acceleration = SCENE_SPEED * delta_time;
 
         if (spawn_timer <= 0) {
@@ -160,6 +166,7 @@ void Game::draw() {
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
+    background.draw(renderer);
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 

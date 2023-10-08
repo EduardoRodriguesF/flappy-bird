@@ -34,4 +34,5 @@ struct Game {
     int spawn_timer;
     bool btn_pressed;
     std::unique_ptr<TextureManager> texture_manager;
+    Background background;
 };
