@@ -1,7 +1,5 @@
 #pragma once
 
-#define UNIT 100
-
 #define WINDOW_WIDTH 288
 #define WINDOW_HEIGHT 512
 
@@ -9,20 +7,23 @@
 #define LOGICAL_SCREEN_HEIGHT (WINDOW_HEIGHT / 1)
 
 #define FPS 60
-#define TARGET_FRAME_TIME (1000 / FPS)
 
-#define GRAVITY_FORCE (5.0f * UNIT)
-#define JUMP_FORCE (2.1f * UNIT)
-#define MAX_VERTICAL_SPEED (4.8f * UNIT)
-#define FLOOR_HEIGHT (LOGICAL_SCREEN_HEIGHT - 24)
+constexpr int TARGET_FRAME_TIME = 1000 / FPS;
+constexpr int FLOOR_HEIGHT = (LOGICAL_SCREEN_HEIGHT - 24);
 
-#define SCENE_SPEED (1.0f * UNIT)
-#define BG_SPEED (SCENE_SPEED / 4.0f)
+constexpr float UNIT = 100.0f;
+
+constexpr float GRAVITY_FORCE = (5.0f * UNIT);
+constexpr float JUMP_FORCE = (2.1f * UNIT);
+constexpr float MAX_VERTICAL_SPEED = (4.8f * UNIT);
+
+constexpr float SCENE_SPEED = (0.9f * UNIT);
+constexpr float BG_SPEED = (SCENE_SPEED / 4.0f);
+
+constexpr int PIPE_TIMEOUT_MS = (2.0f * 1000);
 
 #define GAP_RADIUS 35
 #define PIPE_WIDTH 52
-
-#define PIPE_TIMEOUT_MS (2.0f * 1000)
 
 #define S_BIRD_UPFLAP "yellowbird-upflap.png"
 #define S_BIRD_MIDFLAP "yellowbird-midflap.png"
