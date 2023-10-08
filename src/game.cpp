@@ -136,6 +136,12 @@ void Game::update(const float &delta_time) {
             break;
         }
 
+        if (!nearest_pipe.passed && nearest_pipe.top_body.x - PIPE_WIDTH / 2 <= player.position.x) {
+            points++;
+            nearest_pipe.passed = true;
+            SDL_Log("Points: %i", points);
+        }
+
         if (nearest_pipe.top_body.x + nearest_pipe.top_body.w < 0) {
             // Pipe out render vision
             pipes.pop_front();

@@ -19,6 +19,7 @@ struct Pipe {
     Pipe(int gap_y);
     SDL_FRect bottom_body;
     SDL_FRect top_body;
+    bool passed = false;
 };
 
 struct Background {

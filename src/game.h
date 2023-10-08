@@ -35,4 +35,5 @@ struct Game {
     bool btn_pressed;
     std::unique_ptr<TextureManager> texture_manager;
     Background background;
+    int points = 0;
 };
