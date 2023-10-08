@@ -51,6 +51,7 @@ void Game::setup() {
     pipes = std::list<Pipe>({Pipe(LOGICAL_SCREEN_HEIGHT / 2)});
     spawn_timer = PIPE_TIMEOUT_MS;
     background.positions = { 0.0f, 288.0f };
+    points = 0;
 }
 
 void Game::load_textures() {
@@ -60,6 +61,10 @@ void Game::load_textures() {
     texture_manager->load(S_BIRD_MIDFLAP, 34, 24);
     texture_manager->load(S_PIPE, 52, 320);
     texture_manager->load(S_BG_DAY, 288, 512);
+
+    for (const std::string_view &name : DIGITS) {
+        texture_manager->load(name, 24, 36);
+    }
 
     background.texture = texture_manager->get(S_BG_DAY);
 }
@@ -194,5 +199,42 @@ void Game::draw() {
                          bird_texture->width, bird_texture->height};
     SDL_RenderCopyEx(renderer, bird_texture->ptr, NULL, &rect, player.angle, NULL, SDL_RendererFlip::SDL_FLIP_NONE);
 
+    draw_points();
+
     SDL_RenderPresent(renderer);
 }
+
+void Game::draw_points() {
+    SDL_Rect destrect { 0, 36, 24, 36 };
+
+    std::vector<int> digits {};
+
+    if (points == 0) {
+        digits.push_back(0);
+    } else {
+        int divisor = 1000;
+        int new_digit = 0; 
+        do {
+            divisor /= 10;
+            int new_digit = points / divisor % 10;
+
+            if (digits.size() == 0 && new_digit == 0) {
+                continue; // No whole number yet.
+            }
+
+            digits.push_back(new_digit);
+        } while (divisor > 1);
+    }
+
+
+    destrect.x = (LOGICAL_SCREEN_WIDTH / 2) + (digits.size() * -25 / 2);
+
+    const Texture* texture;
+    for (const auto digit : digits) {
+        texture = this->texture_manager->get(DIGITS[digit]);
+        SDL_RenderCopy(renderer, texture->ptr, NULL, &destrect);
+
+        destrect.x += 25;
+    }
+}
+

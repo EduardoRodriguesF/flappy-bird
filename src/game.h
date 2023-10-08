@@ -36,4 +36,5 @@ struct Game {
     std::unique_ptr<TextureManager> texture_manager;
     Background background;
     int points = 0;
+    void draw_points();
 };

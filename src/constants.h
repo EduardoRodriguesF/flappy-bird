@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #define WINDOW_WIDTH 288
 #define WINDOW_HEIGHT 512
 
@@ -34,4 +35,17 @@ constexpr int PIPE_TIMEOUT_MS = (2.0f * 1000);
 #define S_BG_DAY "background-day.png"
 #define S_BG_NIGHT "background-day.png"
 
+#define S_0 "0.png"
+#define S_1 "1.png"
+#define S_2 "2.png"
+#define S_3 "3.png"
+#define S_4 "4.png"
+#define S_5 "5.png"
+#define S_6 "6.png"
+#define S_7 "7.png"
+#define S_8 "8.png"
+#define S_9 "9.png"
+
 #define S_BASE "base.png"
+
+const std::string_view DIGITS[10] { S_0, S_1, S_2, S_3, S_4, S_5, S_6, S_7, S_8, S_9 };
