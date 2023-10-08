@@ -205,7 +205,7 @@ void Game::draw() {
 }
 
 void Game::draw_points() {
-    SDL_Rect destrect { 0, 36, 24, 36 };
+    SDL_Rect destrect { 0, 48, 24, 36 };
 
     std::vector<int> digits {};
 
