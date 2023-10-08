@@ -14,8 +14,8 @@ void Player::update(const float &delta_time) {
         velocity.y = MAX_VERTICAL_SPEED;
     }
 
-    position.x += velocity.x;
-    position.y += velocity.y;
+    position.x += velocity.x * delta_time;
+    position.y += velocity.y * delta_time;
 
     collider.x = position.x + 5;
     collider.y = position.y + 2;

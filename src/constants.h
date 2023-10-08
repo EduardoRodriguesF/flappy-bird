@@ -1,5 +1,7 @@
 #pragma once
 
+#define UNIT 100
+
 #define WINDOW_WIDTH 288
 #define WINDOW_HEIGHT 512
 
@@ -9,18 +11,18 @@
 #define FPS 60
 #define TARGET_FRAME_TIME (1000 / FPS)
 
-#define GRAVITY_FORCE 2.8f
-#define JUMP_FORCE 1.3f
-#define MAX_VERTICAL_SPEED 2.8f
+#define GRAVITY_FORCE (5.0f * UNIT)
+#define JUMP_FORCE (2.1f * UNIT)
+#define MAX_VERTICAL_SPEED (4.8f * UNIT)
 #define FLOOR_HEIGHT (LOGICAL_SCREEN_HEIGHT - 24)
 
-#define SCENE_SPEED 45.0f
+#define SCENE_SPEED (1.0f * UNIT)
 #define BG_SPEED (SCENE_SPEED / 4.0f)
 
 #define GAP_RADIUS 35
 #define PIPE_WIDTH 52
 
-#define PIPE_TIMEOUT_MS (3.5f * 1000)
+#define PIPE_TIMEOUT_MS (2.0f * 1000)
 
 #define S_BIRD_UPFLAP "yellowbird-upflap.png"
 #define S_BIRD_MIDFLAP "yellowbird-midflap.png"

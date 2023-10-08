@@ -34,9 +34,6 @@ Game::Game() : is_running(true), player(0, 0), btn_pressed(false) {
     if (!renderer) {
         throw std::runtime_error("Failed to create SDL window");
     }
-
-    SDL_RenderSetLogicalSize(renderer, LOGICAL_SCREEN_WIDTH,
-                             LOGICAL_SCREEN_HEIGHT);
 }
 
 Game::~Game() {
