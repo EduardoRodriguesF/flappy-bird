@@ -6,8 +6,10 @@
 #include "SDL2/SDL_render.h"
 #include "SDL2/SDL_video.h"
 #include "SDL2_image/SDL_image.h"
+#include "SDL2_mixer/SDL_mixer.h"
 #include "collision/aabb.h"
 #include "constants.h"
+#include "resource/sound.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -15,12 +17,17 @@
 #include <stdexcept>
 
 Game::Game() : is_running(true), player(0, 0), btn_pressed(false) {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
         throw std::runtime_error("Failed to initialize SDL");
     }
 
     if (IMG_Init(IMG_INIT_PNG) < 0) {
         throw std::runtime_error("Failed to initialize IMG");
+    }
+    Mix_OpenAudio(441000, MIX_DEFAULT_FORMAT, 2, 1024);
+
+    if (Mix_Init(0) < 0) {
+        throw std::runtime_error("Failed to initialize Mixer");
     }
 
     window = SDL_CreateWindow("Flappy bird", SDL_WINDOWPOS_CENTERED,
@@ -54,9 +61,12 @@ void Game::setup() {
     points = 0;
 }
 
-void Game::load_textures() {
+void Game::load_resources() {
+    sound_manager = std::make_unique<SoundManager>("res/audio/");
     texture_manager =
         std::make_unique<TextureManager>(renderer, "res/sprites/");
+
+    sound_manager->load(A_POINT);
 
     texture_manager->load(S_BIRD_MIDFLAP, 34, 24);
     texture_manager->load(S_PIPE, 52, 320);
@@ -143,6 +153,7 @@ void Game::update(const float &delta_time) {
 
         if (!nearest_pipe.passed && nearest_pipe.top_body.x - PIPE_WIDTH / 2 <= player.position.x) {
             points++;
+            Mix_PlayChannel(-1, sound_manager->get(A_POINT), 0);
             nearest_pipe.passed = true;
             SDL_Log("Points: %i", points);
         }

@@ -26,6 +26,9 @@ constexpr int PIPE_TIMEOUT_MS = (2.0f * 1000);
 #define GAP_RADIUS 35
 #define PIPE_WIDTH 52
 
+#define A_POINT "point.wav"
+#define A_DIE "die.wav"
+
 #define S_BIRD_UPFLAP "yellowbird-upflap.png"
 #define S_BIRD_MIDFLAP "yellowbird-midflap.png"
 #define S_BIRD_DOWNFLAP "yellowbird-downflap.png"

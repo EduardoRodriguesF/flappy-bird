@@ -1,6 +1,7 @@
 #pragma once
 
 #include "entities.h"
+#include "resource/sound.h"
 #include "resource/texture.h"
 #include <SDL.h>
 #include <list>
@@ -17,7 +18,7 @@ struct Game {
     Game();
     ~Game();
     void setup();
-    void load_textures();
+    void load_resources();
     void handle_input();
     void update(const float &delta_time);
     void draw();
@@ -34,6 +35,7 @@ struct Game {
     int spawn_timer;
     bool btn_pressed;
     std::unique_ptr<TextureManager> texture_manager;
+    std::unique_ptr<SoundManager> sound_manager;
     Background background;
     int points = 0;
     void draw_points();

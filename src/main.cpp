@@ -8,7 +8,7 @@ int main() {
     auto clock = std::make_unique<Clock>(FPS);
 
     game.setup();
-    game.load_textures();
+    game.load_resources();
 
     while (game.is_running) {
         game.handle_input();
