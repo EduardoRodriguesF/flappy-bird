@@ -59,7 +59,7 @@ void Game::setup() {
     pipes = std::list<Pipe>({Pipe(LOGICAL_SCREEN_HEIGHT / 2)});
     spawn_timer = PIPE_TIMEOUT_MS;
 
-    background = std::make_unique<MovingScenerio>(texture_manager->get(S_BG_DAY), SCENE_SPEED, 0);
+    background = std::make_unique<MovingScenerio>(texture_manager->get(S_BG_DAY), BG_SPEED, 0);
     floor = std::make_unique<MovingScenerio>(texture_manager->get(S_BASE), SCENE_SPEED, FLOOR_Y);
 
     points = 0;
@@ -73,7 +73,7 @@ void Game::load_resources() {
     sound_manager->load(A_POINT);
 
     texture_manager->load(S_BIRD_MIDFLAP, 34, 24);
-    texture_manager->load(S_PIPE, 52, 320);
+    texture_manager->load(S_PIPE, PIPE_WIDTH, PIPE_HEIGHT);
     texture_manager->load(S_BG_DAY, 288, 512);
     texture_manager->load(S_BASE, FLOOR_WIDTH, FLOOR_HEIGHT);
 
@@ -121,7 +121,7 @@ void Game::update(const float &delta_time) {
         if (spawn_timer <= 0) {
             spawn_timer = PIPE_TIMEOUT_MS;
             int gap_y = std::min(
-                std::max(GAP_RADIUS * 2, std::rand() % LOGICAL_SCREEN_HEIGHT),
+                std::max(GAP_RADIUS * 2, std::rand() % MAX_GAP_Y),
                 LOGICAL_SCREEN_HEIGHT - GAP_RADIUS * 2);
             pipes.push_back(Pipe(gap_y));
         }

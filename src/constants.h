@@ -26,8 +26,11 @@ constexpr float BG_SPEED = (SCENE_SPEED / 4.0f);
 
 constexpr int PIPE_TIMEOUT_MS = (2.0f * 1000);
 
-#define GAP_RADIUS 40
 #define PIPE_WIDTH 52
+#define PIPE_HEIGHT 320
+
+#define GAP_RADIUS 40
+constexpr int MAX_GAP_Y = PIPE_HEIGHT + GAP_RADIUS;
 
 #define A_POINT "point.wav"
 #define A_DIE "die.wav"
