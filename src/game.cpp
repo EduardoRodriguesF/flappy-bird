@@ -9,6 +9,7 @@
 #include "SDL2_mixer/SDL_mixer.h"
 #include "collision/aabb.h"
 #include "constants.h"
+#include "entities.h"
 #include "resource/sound.h"
 #include <algorithm>
 #include <cstdlib>
@@ -57,7 +58,10 @@ void Game::setup() {
     player = Player(64.0f, LOGICAL_SCREEN_HEIGHT / 2);
     pipes = std::list<Pipe>({Pipe(LOGICAL_SCREEN_HEIGHT / 2)});
     spawn_timer = PIPE_TIMEOUT_MS;
-    background.positions = { 0.0f, 288.0f };
+
+    background = std::make_unique<MovingScenerio>(texture_manager->get(S_BG_DAY), SCENE_SPEED, 0);
+    floor = std::make_unique<MovingScenerio>(texture_manager->get(S_BASE), SCENE_SPEED, FLOOR_Y);
+
     points = 0;
 }
 
@@ -71,12 +75,11 @@ void Game::load_resources() {
     texture_manager->load(S_BIRD_MIDFLAP, 34, 24);
     texture_manager->load(S_PIPE, 52, 320);
     texture_manager->load(S_BG_DAY, 288, 512);
+    texture_manager->load(S_BASE, FLOOR_WIDTH, FLOOR_HEIGHT);
 
     for (const std::string_view &name : DIGITS) {
         texture_manager->load(name, 24, 36);
     }
-
-    background.texture = texture_manager->get(S_BG_DAY);
 }
 
 void Game::handle_input() {
@@ -110,7 +113,8 @@ void Game::game_over() {
 void Game::update(const float &delta_time) {
     switch (this->state) {
     case State::Playing: {
-        background.update(delta_time);
+        background->update(delta_time);
+        floor->update(delta_time);
 
         float scene_acceleration = SCENE_SPEED * delta_time;
 
@@ -129,7 +133,7 @@ void Game::update(const float &delta_time) {
 
         player.update(delta_time);
 
-        if (player.position.y >= FLOOR_HEIGHT) {
+        if (player.position.y >= FLOOR_Y) {
             this->game_over();
             break;
         }
@@ -166,7 +170,7 @@ void Game::update(const float &delta_time) {
         break;
     }
     case State::GameOver:
-        if (player.position.y < FLOOR_HEIGHT) {
+        if (player.position.y < FLOOR_Y) {
             player.update(delta_time);
         } else if (btn_pressed) {
             this->new_game();
@@ -188,7 +192,7 @@ void Game::draw() {
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
-    background.draw(renderer);
+    background->draw(renderer);
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
@@ -205,6 +209,8 @@ void Game::draw() {
         render_rect.y = pipe.bottom_body.y;
         SDL_RenderCopyF(renderer, pipe_texture->ptr, NULL, &render_rect);
     }
+
+    floor->draw(renderer);
 
     auto rect = SDL_Rect{(int)player.position.x, (int)player.position.y,
                          bird_texture->width, bird_texture->height};

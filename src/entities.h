@@ -1,3 +1,5 @@
+#pragma once
+
 #include "SDL2/SDL_rect.h"
 #include "SDL2/SDL_render.h"
 #include "SDL2/SDL_stdinc.h"
@@ -22,8 +24,11 @@ struct Pipe {
     bool passed = false;
 };
 
-struct Background {
+struct MovingScenerio {
+    MovingScenerio(const Texture *texture, float speed, int y);
     const Texture *texture;
+    float speed;
+    int y;
     std::vector<float> positions;
     void update(const float &delta_time);
     void draw(SDL_Renderer *renderer);

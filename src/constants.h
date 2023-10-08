@@ -1,8 +1,8 @@
 #pragma once
 
 #include <string>
-#define WINDOW_WIDTH 300
-#define WINDOW_HEIGHT 420
+#define WINDOW_WIDTH 288
+#define WINDOW_HEIGHT 512
 
 #define LOGICAL_SCREEN_WIDTH (WINDOW_WIDTH / 1)
 #define LOGICAL_SCREEN_HEIGHT (WINDOW_HEIGHT / 1)
@@ -10,7 +10,10 @@
 #define FPS 60
 
 constexpr int TARGET_FRAME_TIME = 1000 / FPS;
-constexpr int FLOOR_HEIGHT = (LOGICAL_SCREEN_HEIGHT - 24);
+
+#define FLOOR_WIDTH 332
+#define FLOOR_HEIGHT 112
+constexpr int FLOOR_Y = (LOGICAL_SCREEN_HEIGHT - FLOOR_HEIGHT);
 
 constexpr float UNIT = 100.0f;
 

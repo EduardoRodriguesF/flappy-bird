@@ -36,7 +36,8 @@ struct Game {
     bool btn_pressed;
     std::unique_ptr<TextureManager> texture_manager;
     std::unique_ptr<SoundManager> sound_manager;
-    Background background;
+    std::unique_ptr<MovingScenerio> background;
+    std::unique_ptr<MovingScenerio> floor;
     int points = 0;
     void draw_points();
 };

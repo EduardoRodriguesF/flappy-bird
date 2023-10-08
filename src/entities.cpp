@@ -2,6 +2,7 @@
 #include "SDL2/SDL_rect.h"
 #include "SDL2/SDL_render.h"
 #include "constants.h"
+#include <cmath>
 #include <iostream>
 
 Player::Player(float x, float y)
@@ -42,18 +43,28 @@ Pipe::Pipe(int gap_y) {
         SDL_FRect{start_x, bottom_start_y, PIPE_WIDTH, bottom_height};
 }
 
-void Background::update(const float &delta_time) {
+MovingScenerio::MovingScenerio(const Texture *texture, float speed, int y) : texture(texture), speed(speed), y(y) {
+    positions = std::vector<float>();
+    int needed_positions = (LOGICAL_SCREEN_WIDTH / texture->width) + 1;
+
+    while (needed_positions >= 0) {
+        positions.push_back(needed_positions * texture->width);
+        needed_positions--;
+    }
+}
+
+void MovingScenerio::update(const float &delta_time) {
     for (float &position : positions) {
-        position -= BG_SPEED * delta_time;
+        position -= speed * delta_time;
 
         if (position + texture->width <= 0) {
-            position += texture->width * 2; // Puts it after the currently visible background
+            position += texture->width * positions.size(); // Puts it after the currently visible background
         }
     }
 }
 
-void Background::draw(SDL_Renderer* renderer) {
-    auto destrect = SDL_Rect{ 0, 0, texture->width, texture->height };
+void MovingScenerio::draw(SDL_Renderer* renderer) {
+    auto destrect = SDL_Rect{ 0, y, texture->width, texture->height };
     for (const float position : positions) {
         destrect.x = position;
         SDL_RenderCopy(renderer, texture->ptr, NULL, &destrect);
