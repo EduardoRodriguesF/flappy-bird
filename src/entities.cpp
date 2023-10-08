@@ -44,7 +44,11 @@ Pipe::Pipe(int gap_y) {
 
 void Background::update(const float &delta_time) {
     for (float &position : positions) {
-        position -= delta_time;
+        position -= BG_SPEED * delta_time;
+
+        if (position + texture->width <= 0) {
+            position += texture->width * 2; // Puts it after the currently visible background
+        }
     }
 }
 

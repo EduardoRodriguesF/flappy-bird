@@ -30,7 +30,7 @@ Game::Game() : is_running(true), player(0, 0), btn_pressed(false) {
         throw std::runtime_error("Failed to create SDL window");
     }
 
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (!renderer) {
         throw std::runtime_error("Failed to create SDL window");
     }
@@ -50,7 +50,7 @@ void Game::setup() {
     player = Player(64.0f, LOGICAL_SCREEN_HEIGHT / 2);
     pipes = std::list<Pipe>({Pipe(LOGICAL_SCREEN_HEIGHT / 2)});
     spawn_timer = PIPE_TIMEOUT_MS;
-    background.positions = { 0.0f, 289.0f };
+    background.positions = { 0.0f, 288.0f };
 }
 
 void Game::load_textures() {
