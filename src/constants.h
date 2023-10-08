@@ -13,8 +13,8 @@ constexpr int FLOOR_HEIGHT = (LOGICAL_SCREEN_HEIGHT - 24);
 
 constexpr float UNIT = 100.0f;
 
-constexpr float GRAVITY_FORCE = (5.0f * UNIT);
-constexpr float JUMP_FORCE = (2.1f * UNIT);
+constexpr float GRAVITY_FORCE = (6.0f * UNIT);
+constexpr float JUMP_FORCE = (2.6f * UNIT);
 constexpr float MAX_VERTICAL_SPEED = (4.8f * UNIT);
 
 constexpr float SCENE_SPEED = (0.9f * UNIT);
