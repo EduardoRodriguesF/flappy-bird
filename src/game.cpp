@@ -73,6 +73,7 @@ void Game::load_resources() {
     sound_manager->load(A_POINT);
     sound_manager->load(A_DIE);
     sound_manager->load(A_WING);
+    sound_manager->load(A_HIT);
 
     texture_manager->load(S_BIRD_MIDFLAP, 34, 24);
     texture_manager->load(S_PIPE, PIPE_WIDTH, PIPE_HEIGHT);
@@ -110,7 +111,7 @@ void Game::new_game() {
 void Game::game_over() {
     player.velocity.y = 0;
     state = State::GameOver;
-    Mix_PlayChannel(-1, sound_manager->get(A_DIE), 0);
+    Mix_PlayChannel(-1, sound_manager->get(A_HIT), 0);
 }
 
 void Game::update(const float &delta_time) {

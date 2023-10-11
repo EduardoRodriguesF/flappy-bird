@@ -36,6 +36,7 @@ constexpr int MAX_GAP_Y = PIPE_HEIGHT + GAP_RADIUS;
 #define A_POINT "point.wav"
 #define A_WING "wing.wav"
 #define A_DIE "die.wav"
+#define A_HIT "hit.wav"
 
 #define S_BIRD_UPFLAP "yellowbird-upflap.png"
 #define S_BIRD_MIDFLAP "yellowbird-midflap.png"
