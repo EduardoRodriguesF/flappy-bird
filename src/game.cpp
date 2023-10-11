@@ -71,6 +71,8 @@ void Game::load_resources() {
         std::make_unique<TextureManager>(renderer, "res/sprites/");
 
     sound_manager->load(A_POINT);
+    sound_manager->load(A_DIE);
+    sound_manager->load(A_WING);
 
     texture_manager->load(S_BIRD_MIDFLAP, 34, 24);
     texture_manager->load(S_PIPE, PIPE_WIDTH, PIPE_HEIGHT);
@@ -108,6 +110,7 @@ void Game::new_game() {
 void Game::game_over() {
     player.velocity.y = 0;
     state = State::GameOver;
+    Mix_PlayChannel(-1, sound_manager->get(A_DIE), 0);
 }
 
 void Game::update(const float &delta_time) {
@@ -129,6 +132,7 @@ void Game::update(const float &delta_time) {
 
         if (btn_pressed) {
             player.jump();
+            Mix_PlayChannel(-1, sound_manager->get(A_WING), 0);
         }
 
         player.update(delta_time);

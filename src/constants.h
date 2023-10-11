@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+
 #define WINDOW_WIDTH 288
 #define WINDOW_HEIGHT 512
 
@@ -33,6 +34,7 @@ constexpr int PIPE_TIMEOUT_MS = (2.0f * 1000);
 constexpr int MAX_GAP_Y = PIPE_HEIGHT + GAP_RADIUS;
 
 #define A_POINT "point.wav"
+#define A_WING "wing.wav"
 #define A_DIE "die.wav"
 
 #define S_BIRD_UPFLAP "yellowbird-upflap.png"

@@ -8,10 +8,10 @@ void SoundManager::load(const std::string_view key) {
     Mix_Chunk *ptr = Mix_LoadWAV(path.c_str());
 
     if (ptr == nullptr) {
-        throw std::runtime_error("Failed to load texture");
+        throw std::runtime_error("Failed to load sound");
     }
 
-    SDL_Log("Load texture: %s (addr: %p)", path.c_str(), ptr);
+    SDL_Log("Load sound: %s (addr: %p)", path.c_str(), ptr);
     loaded_sounds.insert(std::make_pair(key, ptr));
 }
 
