@@ -60,4 +60,8 @@ constexpr int MAX_GAP_Y = PIPE_HEIGHT + GAP_RADIUS;
 
 #define S_BASE "base.png"
 
+#define S_MESSAGE "message.png"
+#define S_MESSAGE_W 184
+#define S_MESSAGE_H 267
+
 const std::string_view DIGITS[10] { S_0, S_1, S_2, S_3, S_4, S_5, S_6, S_7, S_8, S_9 };

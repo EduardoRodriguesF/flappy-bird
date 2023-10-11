@@ -79,6 +79,8 @@ void Game::load_resources() {
     texture_manager->load(S_PIPE, PIPE_WIDTH, PIPE_HEIGHT);
     texture_manager->load(S_BG_DAY, 288, 512);
     texture_manager->load(S_BASE, FLOOR_WIDTH, FLOOR_HEIGHT);
+    texture_manager->load(S_BASE, FLOOR_WIDTH, FLOOR_HEIGHT);
+    texture_manager->load(S_MESSAGE, S_MESSAGE_W, S_MESSAGE_H);
 
     for (const std::string_view &name : DIGITS) {
         texture_manager->load(name, 24, 36);
@@ -221,7 +223,19 @@ void Game::draw() {
                          bird_texture->width, bird_texture->height};
     SDL_RenderCopyEx(renderer, bird_texture->ptr, NULL, &rect, player.angle, NULL, SDL_RendererFlip::SDL_FLIP_NONE);
 
-    draw_points();
+    if (state == State::Playing) {
+        draw_points();
+    } else if (state == State::Start) {
+        auto message_texture = texture_manager->get(S_MESSAGE);
+        rect.x = LOGICAL_SCREEN_WIDTH / 2 - S_MESSAGE_W / 2;
+        rect.y = 52;
+        rect.w = message_texture->width;
+        rect.h = message_texture->height;
+
+        SDL_RenderCopy(renderer, message_texture->ptr, NULL, &rect);
+    } else if (state == State::GameOver) {
+        draw_points();
+    }
 
     SDL_RenderPresent(renderer);
 }
