@@ -50,7 +50,7 @@ Game::Game() : is_running(true), player(0, 0), btn_pressed(false) {
     SDL_RenderSetLogicalSize(renderer, LOGICAL_SCREEN_WIDTH,
                              LOGICAL_SCREEN_HEIGHT);
 
-    savefile = std::make_unique<SaveFile>(SAVE_FILE);
+    savefile = std::make_unique<SaveFile>(SAVE_KEY, SAVE_FILE);
     savefile->load();
 }
 

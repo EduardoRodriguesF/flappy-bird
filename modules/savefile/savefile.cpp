@@ -5,9 +5,10 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include "savefile/encryption.h"
 #include "split/split.h"
 
-SaveFile::SaveFile(const char* file) : file(file) {
+SaveFile::SaveFile(const char* encryption_key, const char* file) : encryption_key(encryption_key), file(file) {
     data = std::map<std::string, std::string>();
 }
 
@@ -27,6 +28,8 @@ bool SaveFile::load() {
         txt.append(line);
     }
 
+    decrypt(this->encryption_key, txt);
+
     std::vector<std::string> entries = split(txt, ';');
     for (const auto &entry : entries) {
         auto pair = split_once(entry, '=');
@@ -40,6 +43,8 @@ bool SaveFile::load() {
 bool SaveFile::save() const {
     std::string values = stringify();
     std::ofstream ofs(file);
+
+    encrypt(this->encryption_key, values);
 
     ofs << values;
     ofs.close();

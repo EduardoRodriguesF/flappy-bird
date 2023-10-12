@@ -9,7 +9,7 @@ class SaveFile {
 public:
     std::map<std::string, std::string> data;
 
-    SaveFile(const char* file);
+    SaveFile(const char* encryption_key, const char* file);
 
     SaveFile(const SaveFile &) = delete;
     SaveFile& operator=(const SaveFile &) = delete;
@@ -29,6 +29,7 @@ public:
     std::string get(std::string key);
 private:
     const char* file;
+    const char* encryption_key;
 
     // Transforms `data` into a `string`.
     std::string stringify() const;
