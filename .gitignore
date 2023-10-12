@@ -3,3 +3,4 @@ bin
 .DS_STORE
 compile_commands.json
 .cache
+data

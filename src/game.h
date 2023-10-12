@@ -3,6 +3,7 @@
 #include "entities.h"
 #include "resource/sound.h"
 #include "resource/texture.h"
+#include "savefile/savefile.h"
 #include <SDL.h>
 #include <list>
 #include <memory>
@@ -38,6 +39,7 @@ struct Game {
     std::unique_ptr<SoundManager> sound_manager;
     std::unique_ptr<MovingScenerio> background;
     std::unique_ptr<MovingScenerio> floor;
+    std::unique_ptr<SaveFile> savefile;
     int points = 0;
     void draw_points();
 };

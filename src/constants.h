@@ -8,6 +8,11 @@
 #define LOGICAL_SCREEN_WIDTH (WINDOW_WIDTH / 1)
 #define LOGICAL_SCREEN_HEIGHT (WINDOW_HEIGHT / 1)
 
+#define SAVE_FILE "data"
+#define SAVE_KEY "flappybirdrocks"
+
+#define SAVE_HIGHSCORE "highscore"
+
 #define FPS 60
 
 constexpr int TARGET_FRAME_TIME = 1000 / FPS;

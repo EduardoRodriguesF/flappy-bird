@@ -11,11 +11,15 @@
 #include "constants.h"
 #include "entities.h"
 #include "resource/sound.h"
+#include "savefile/savefile.h"
 #include <algorithm>
+#include <cstddef>
 #include <cstdlib>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
+#include <string>
+#include <utility>
 
 Game::Game() : is_running(true), player(0, 0), btn_pressed(false) {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
@@ -45,6 +49,9 @@ Game::Game() : is_running(true), player(0, 0), btn_pressed(false) {
 
     SDL_RenderSetLogicalSize(renderer, LOGICAL_SCREEN_WIDTH,
                              LOGICAL_SCREEN_HEIGHT);
+
+    savefile = std::make_unique<SaveFile>(SAVE_FILE);
+    savefile->load();
 }
 
 Game::~Game() {
@@ -108,12 +115,28 @@ void Game::handle_input() {
 void Game::new_game() {
     this->setup();
     state = State::Playing;
+
+    std::string highscore = savefile->get(SAVE_HIGHSCORE);
+    if (!highscore.empty()) {
+        SDL_Log("Highscore: %s", std::string(highscore).c_str());
+    }
 }
 
 void Game::game_over() {
     player.velocity.y = 0;
     state = State::GameOver;
     Mix_PlayChannel(-1, sound_manager->get(A_HIT), 0);
+
+    int highscore = 0;
+    std::string saved_highscore = savefile->get(SAVE_HIGHSCORE);
+    if (!saved_highscore.empty()) {
+        highscore = std::stoi(std::string(saved_highscore));
+    }
+
+    if (this->points > highscore) {
+        savefile->data.insert_or_assign(SAVE_HIGHSCORE, std::to_string(this->points));
+        savefile->save();
+    }
 }
 
 void Game::update(const float &delta_time) {
