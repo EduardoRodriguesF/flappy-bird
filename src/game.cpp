@@ -88,6 +88,7 @@ void Game::load_resources() {
     texture_manager->load(S_BASE, FLOOR_WIDTH, FLOOR_HEIGHT);
     texture_manager->load(S_BASE, FLOOR_WIDTH, FLOOR_HEIGHT);
     texture_manager->load(S_MESSAGE, S_MESSAGE_W, S_MESSAGE_H);
+    texture_manager->load(S_GAMEOVER, S_GAMEOVER_W, S_GAMEOVER_H);
 
     for (const std::string_view &name : DIGITS) {
         texture_manager->load(name, 24, 36);
@@ -257,6 +258,12 @@ void Game::draw() {
 
         SDL_RenderCopy(renderer, message_texture->ptr, NULL, &rect);
     } else if (state == State::GameOver) {
+        auto gameover_texture = texture_manager->get(S_GAMEOVER);
+        rect.x = LOGICAL_SCREEN_WIDTH / 2 - gameover_texture->width / 2;
+        rect.y = 102;
+        rect.w = gameover_texture->width;
+        rect.h = gameover_texture->height;
+        SDL_RenderCopy(renderer, gameover_texture->ptr, NULL, &rect);
         draw_points();
     }
 
