@@ -62,7 +62,14 @@ Game::~Game() {
 }
 
 void Game::setup() {
+    auto ref_texture = texture_manager->get(S_BIRD_MIDFLAP);
+    std::vector<SDL_Texture*> bird_textures { texture_manager->get(S_BIRD_MIDFLAP)->ptr, texture_manager->get(S_BIRD_UPFLAP)->ptr, texture_manager->get(S_BIRD_DOWNFLAP)->ptr, texture_manager->get(S_BIRD_UPFLAP)->ptr };
+    auto animation = Animation(bird_textures, 100);
+    animation.transformer.w = ref_texture->width;
+    animation.transformer.h = ref_texture->height;
+
     player = Player(64.0f, LOGICAL_SCREEN_HEIGHT / 2);
+    player.animation = animation;
     pipes = std::list<Pipe>({Pipe(LOGICAL_SCREEN_HEIGHT / 2)});
     spawn_timer = PIPE_TIMEOUT_MS;
 
@@ -82,7 +89,10 @@ void Game::load_resources() {
     sound_manager->load(A_WING);
     sound_manager->load(A_HIT);
 
+    texture_manager->load(S_BIRD_UPFLAP, 34, 24);
     texture_manager->load(S_BIRD_MIDFLAP, 34, 24);
+    texture_manager->load(S_BIRD_DOWNFLAP, 34, 24);
+
     texture_manager->load(S_PIPE, PIPE_WIDTH, PIPE_HEIGHT);
     texture_manager->load(S_BG_DAY, 288, 512);
     texture_manager->load(S_BASE, FLOOR_WIDTH, FLOOR_HEIGHT);
@@ -245,7 +255,8 @@ void Game::draw() {
 
     auto rect = SDL_Rect{(int)player.position.x, (int)player.position.y,
                          bird_texture->width, bird_texture->height};
-    SDL_RenderCopyEx(renderer, bird_texture->ptr, NULL, &rect, player.angle, NULL, SDL_RendererFlip::SDL_FLIP_NONE);
+
+    SDL_RenderCopyEx(renderer, player.animation.frame(), NULL, &player.animation.transformer, player.angle, NULL, SDL_RendererFlip::SDL_FLIP_NONE);
 
     if (state == State::Playing) {
         draw_points();

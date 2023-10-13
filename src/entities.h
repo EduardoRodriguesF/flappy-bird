@@ -4,6 +4,7 @@
 #include "SDL2/SDL_render.h"
 #include "SDL2/SDL_stdinc.h"
 #include "resource/texture.h"
+#include "animation/animation.h"
 #include <vector>
 
 struct Player {
@@ -15,6 +16,7 @@ struct Player {
     void update(const float &delta_time);
     void draw_collider(SDL_Renderer *renderer);
     void jump();
+    Animation animation;
 };
 
 struct Pipe {

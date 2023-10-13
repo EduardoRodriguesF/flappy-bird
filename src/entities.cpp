@@ -7,7 +7,7 @@
 
 Player::Player(float x, float y)
     : position(SDL_FPoint{x, y}), collider(SDL_FRect{x, y, 25.0f, 20.0f}),
-      velocity(SDL_FPoint{0, 0}){};
+      velocity(SDL_FPoint{0, 0}) {};
 
 void Player::update(const float &delta_time) {
     velocity.y += GRAVITY_FORCE * delta_time; // gravity
@@ -21,7 +21,12 @@ void Player::update(const float &delta_time) {
     collider.x = position.x + 5;
     collider.y = position.y + 2;
 
+    animation.transformer.x = position.x;
+    animation.transformer.y = position.y;
+
     angle = std::min(90.0f, std::max(-30.0f, velocity.y - 250.0f));
+
+    animation.update(delta_time);
 }
 
 void Player::jump() { this->velocity.y = -JUMP_FORCE; }

@@ -16,8 +16,9 @@ add_subdirectory(modules/collision)
 add_subdirectory(modules/resource)
 add_subdirectory(modules/savefile)
 add_subdirectory(modules/split)
+add_subdirectory(modules/animation)
 
-target_link_libraries(${PROJECT_NAME} SDL2::SDL2 SDL2_image::SDL2_image SDL2_mixer::SDL2_mixer clock collision resource savefile)
+target_link_libraries(${PROJECT_NAME} SDL2::SDL2 SDL2_image::SDL2_image SDL2_mixer::SDL2_mixer clock collision resource savefile animation)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     CXX_STANDARD 20
