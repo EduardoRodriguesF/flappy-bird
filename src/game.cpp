@@ -114,7 +114,7 @@ void Game::handle_input() {
             this->is_running = false;
             break;
         case SDL_KEYDOWN:
-            btn_pressed = e.key.keysym.sym == SDLK_SPACE;
+            btn_pressed = e.key.keysym.sym == SDLK_SPACE && !e.key.repeat;
             break;
         }
         if (e.type == SDL_QUIT) {
